@@ -1,1 +1,4 @@
-[ "hubot-ttc-alerts", "hubot-plusplus" ]
+[
+  "hubot-ttc-alerts",
+  "hubot-plusplus"
+]
