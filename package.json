@@ -20,7 +20,7 @@
     "hubot-scripts": "^2.5.16",
     "hubot-shipit": "^0.1.2",
     "hubot-slack": "^3.3.0",
-    "hubot-youtube": "^0.1.2"
+    "hubot-youtube": "git://github.com/stephenyeargin/hubot-youtube.git#bug/3-broken-youtube-search"
   },
   "engines": {
     "node": "0.10.x"
