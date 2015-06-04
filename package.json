@@ -18,6 +18,7 @@
     "hubot-redis-brain": "0.0.2",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
+    "hubot-sentimental": "^1.0.5",
     "hubot-shipit": "^0.1.2",
     "hubot-slack": "^3.3.0",
     "hubot-youtube": "git://github.com/stephenyeargin/hubot-youtube.git#bug/3-broken-youtube-search"
