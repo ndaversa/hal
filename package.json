@@ -16,7 +16,6 @@
     "hubot-plusplus": "^1.1.5",
     "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.2",
-    "hubot-remind-at": "0.0.4",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
     "hubot-sentimental": "^1.0.5",
