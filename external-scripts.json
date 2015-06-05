@@ -12,5 +12,6 @@
   "hubot-plusplus",
   "hubot-jira-bot",
   "hubot-youtube-v3",
-  "hubot-sentimental"
+  "hubot-sentimental",
+  "hubot-loudbot"
 ]
