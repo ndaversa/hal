@@ -11,7 +11,7 @@
     "hubot-google-translate": "^0.1.0",
     "hubot-help": "^0.1.1",
     "hubot-heroku-keepalive": "0.0.4",
-    "hubot-jira-bot": "^1.5.1",
+    "hubot-jira-bot": "^1.6.0",
     "hubot-loudbot": "^1.4.1",
     "hubot-maps": "0.0.2",
     "hubot-plusplus": "^1.1.5",
