@@ -8,7 +8,7 @@
     "hubot": "^2.12.0",
     "hubot-privileges": "^1.0.4",
     "hubot-diagnostics": "0.0.1",
-    "hubot-google-images": "^0.1.4",
+    "hubot-google-images": "^0.2.1",
     "hubot-google-translate": "^0.1.0",
     "hubot-help": "^0.1.1",
     "hubot-heroku-keepalive": "0.0.4",
