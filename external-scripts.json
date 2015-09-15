@@ -3,7 +3,6 @@
   "hubot-privileges",
   "hubot-jira-bot",
   "hubot-diagnostics",
-  "hubot-heroku-keepalive",
   "hubot-google-images",
   "hubot-google-translate",
   "hubot-pugme",
