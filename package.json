@@ -6,7 +6,6 @@
   "description": "Wattbot",
   "dependencies": {
     "hubot": "^2.12.0",
-    "hubot-privileges": "^1.0.4",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "hubot-scripts/hubot-google-images",
     "hubot-google-translate": "^0.1.0",
@@ -15,12 +14,14 @@
     "hubot-loudbot": "^1.4.1",
     "hubot-maps": "0.0.2",
     "hubot-plusplus": "^1.1.5",
+    "hubot-privileges": "^1.0.4",
     "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.2",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
     "hubot-shipit": "^0.1.2",
     "hubot-slack": "^3.3.0",
+    "hubot-standup-alarm": "0.0.6",
     "hubot-youtube-v3": "^0.1.3"
   },
   "engines": {

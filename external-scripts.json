@@ -1,6 +1,7 @@
 [
   "hubot-help",
   "hubot-privileges",
+  "hubot-standup-alarm",
   "hubot-jira-bot",
   "hubot-diagnostics",
   "hubot-google-images",
