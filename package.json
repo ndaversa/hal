@@ -10,7 +10,7 @@
     "hubot-google-images": "hubot-scripts/hubot-google-images",
     "hubot-google-translate": "^0.1.0",
     "hubot-help": "^0.1.1",
-    "hubot-jira-bot": "^1.11.0",
+    "hubot-jira-bot": "^1.12.0",
     "hubot-github-bot": "^1.0.2",
     "hubot-loudbot": "^1.4.1",
     "hubot-maps": "0.0.2",
