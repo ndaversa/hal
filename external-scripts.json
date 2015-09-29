@@ -3,6 +3,7 @@
   "hubot-privileges",
   "hubot-standup-alarm",
   "hubot-jira-bot",
+  "hubot-github-bot",
   "hubot-diagnostics",
   "hubot-google-images",
   "hubot-google-translate",
