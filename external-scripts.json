@@ -2,6 +2,7 @@
   "hubot-help",
   "hubot-privileges",
   "hubot-standup-alarm",
+  "hubot-aws-bot",
   "hubot-ical-topic-bot",
   "hubot-victorops-bot",
   "hubot-jira-bot",
