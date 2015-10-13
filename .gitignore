@@ -3,3 +3,4 @@ node_modules
 .hubot_history
 launch.sh
 restart.sh
+dump.rdb
