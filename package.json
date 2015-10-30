@@ -9,6 +9,7 @@
     "hubot-aws-bot": "^1.2.2",
     "hubot-diagnostics": "0.0.1",
     "hubot-github-bot": "^1.3.1",
+    "hubot-groups-bot": "Wattpad/hubot-groups-bot",
     "hubot-google-images": "hubot-scripts/hubot-google-images",
     "hubot-google-translate": "^0.1.0",
     "hubot-help": "^0.1.1",
