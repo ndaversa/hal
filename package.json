@@ -13,7 +13,7 @@
     "hubot-google-images": "hubot-scripts/hubot-google-images",
     "hubot-google-translate": "^0.1.0",
     "hubot-help": "^0.1.1",
-    "hubot-ical-topic-bot": "^1.1.4",
+    "hubot-ical-topic-bot": "^1.1.5",
     "hubot-jira-bot": "^2.2.2",
     "hubot-loudbot": "^1.4.1",
     "hubot-maps": "0.0.2",
