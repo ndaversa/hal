@@ -20,6 +20,7 @@
     "hubot-plusplus": "^1.1.5",
     "hubot-privileges": "^1.0.4",
     "hubot-pugme": "^0.1.0",
+    "hubot-random-story": "wattpad/hubot-random-story",
     "hubot-redis-brain": "0.0.2",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
