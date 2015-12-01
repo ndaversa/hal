@@ -8,6 +8,7 @@
   "hubot-victorops-bot",
   "hubot-jira-bot",
   "hubot-github-bot",
+  "hubot-reminder-bot",
   "hubot-diagnostics",
   "hubot-google-images",
   "hubot-google-translate",
