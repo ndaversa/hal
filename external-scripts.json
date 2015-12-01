@@ -1,7 +1,6 @@
 [
   "hubot-help",
   "hubot-privileges",
-  "hubot-standup-alarm",
   "hubot-aws-bot",
   "hubot-groups-bot",
   "hubot-ical-topic-bot",
