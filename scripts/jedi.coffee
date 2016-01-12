@@ -103,6 +103,7 @@ module.exports = (robot) ->
       transitions = data.transitions
       backlog = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "backlog"
       if backlog
+        msg.send "<@#{msg.message.user.id}> Transitioning issue to `Backlog`"
         fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
           headers: headers
           method: "POST"
@@ -119,6 +120,7 @@ module.exports = (robot) ->
       transitions = data.transitions
       selectedForDev = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "for dev"
       if selectedForDev
+        msg.send "<@#{msg.message.user.id}> Transitioning issue to `Selected for Development`"
         fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
           headers: headers
           method: "POST"
@@ -135,6 +137,7 @@ module.exports = (robot) ->
       transitions = data.transitions
       inProgress = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "progress"
       if inProgress
+        msg.send "<@#{msg.message.user.id}> Transitioning issue to `In Progress`"
         fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
           headers: headers
           method: "POST"
