@@ -101,8 +101,23 @@ module.exports = (robot) ->
       parseJSON res
     .then (data) ->
       transitions = data.transitions
-
-      selectedForDev = transition for transition in transitions when _(transition.name).contains "Selected For Dev"
+      backlog = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "backlog"
+      if backlog
+        fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
+          headers: headers
+          method: "POST"
+          body: JSON.stringify
+            transition:
+              id: backlog.id
+    .then (json) ->
+      fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions?expand=transitions.fields", headers: headers
+    .then (res) ->
+      checkStatus res
+    .then (res) ->
+      parseJSON res
+    .then (data) ->
+      transitions = data.transitions
+      selectedForDev = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "for dev"
       if selectedForDev
         fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
           headers: headers
@@ -110,8 +125,15 @@ module.exports = (robot) ->
           body: JSON.stringify
             transition:
               id: selectedForDev.id
-    .then () ->
-      inProgress = transition for transition in transitions when _(transition.name).contains "Progress"
+    .then (json) ->
+      fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions?expand=transitions.fields", headers: headers
+    .then (res) ->
+      checkStatus res
+    .then (res) ->
+      parseJSON res
+    .then (data) ->
+      transitions = data.transitions
+      inProgress = transition for transition in transitions when _(transition.to.name).toLowerCase().contains "progress"
       if inProgress
         fetch "#{jiraUrl}/rest/api/2/issue/#{ticket.key}/transitions",
           headers: headers
