@@ -1,3 +1,18 @@
+# Description:
+#   Share some fun everytime alot is said
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Author:
+#   ndaversa
+
 module.exports = (robot) ->
   alots = [
     "http://4.bp.blogspot.com/_D_Z-D2tzi14/S8TRIo4br3I/AAAAAAAACv4/Zh7_GcMlRKo/s400/ALOT.png",
