@@ -79,7 +79,10 @@ module.exports = (robot) ->
           issuetype:
             name: type
 
-      issue.fields.reporter = reporter if reporter
+      if reporter
+        issue.fields.reporter = reporter
+        issue.fields.assignee = reporter
+
       issue
     .then (issue) ->
       fetch "#{jiraUrl}/rest/api/2/issue",
