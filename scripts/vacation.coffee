@@ -49,9 +49,9 @@ module.exports = (robot) ->
         end: moment event.end
         summary: event.summary
         id: id
-      .filter (event) -> now.isBetween event.start, event.end
-      .map (event) -> event.summary.split('-')[0].trim()
-      .map lookupUser
+      .filter((event) -> now.isBetween event.start, event.end)
+      .map((event) -> event.summary.split('-')[0].trim())
+      .map(lookupUser)
       callback _(onVacation).compact()
 
   updateVacationList = () ->
