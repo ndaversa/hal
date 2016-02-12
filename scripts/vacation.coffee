@@ -55,7 +55,7 @@ module.exports = (robot) ->
       .map(lookupUser)
       callback _(onVacation).compact()
 
-  updateVacationList = () ->
+  updateVacationList = (callback) ->
     determineWhosOnVacation (users) ->
       if users and users.length > 0
         onVacationUsers = users
@@ -63,6 +63,7 @@ module.exports = (robot) ->
       else
         onVacationUsers = []
         onVacationRegex = null
+      callback? onVacationUsers
 
   userOnVacationMentioned = (message) ->
     return false if not onVacationRegex
@@ -77,3 +78,12 @@ module.exports = (robot) ->
   robot.brain.once 'loaded', ->
     updateVacationList()
     new cronJob( "0 */15 * * * *", updateVacationList, null, true)
+
+  robot.respond /(who\s?is )?on vacation/, (msg) ->
+    updateVacationList (users) ->
+      vacationers = users.map (user) -> obfuscator.obfuscate user.name
+      if vacationers.length > 0
+        msg.send "<@#{msg.message.user.id}>: #{ vacationers.join ' , ' } #{if vacationers.length > 1 then "are all" else "is the only one"} on vacation :sunglasses:"
+      else
+        msg.send "<@#{msg.message.user.id}>: No one is on vacation :sadpanda:"
+
