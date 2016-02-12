@@ -66,6 +66,7 @@ module.exports = (robot) ->
 
   userOnVacationMentioned = (message) ->
     return false if not onVacationRegex
+    return false if not message.match?
     return message.match onVacationRegex
 
   robot.listen userOnVacationMentioned, (msg) ->
