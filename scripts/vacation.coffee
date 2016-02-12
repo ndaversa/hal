@@ -19,6 +19,7 @@
 #   ndaversa
 
 _ = require 'underscore'
+obfuscator = require './obfuscator'
 ical = require 'ical'
 moment = require 'moment'
 Fuse = require 'fuse.js'
@@ -70,7 +71,7 @@ module.exports = (robot) ->
   robot.listen userOnVacationMentioned, (msg) ->
     for username in msg.match
       user = _(onVacationUsers).find (user) -> user.name is username
-      msg.send "<@#{msg.message.user.id}>: <@#{user.id}> is on vacation"
+      msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation :sunglasses:"
 
   robot.brain.once 'loaded', ->
     updateVacationList()
