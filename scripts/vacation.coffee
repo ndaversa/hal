@@ -25,8 +25,8 @@ Fuse = require 'fuse.js'
 cronJob = require("cron").CronJob
 
 calendarUrl = process.env.HUBOT_VACATION_ICAL
-onVacationRegex = null
 onVacationUsers = []
+onVacationRegex = null
 
 module.exports = (robot) ->
 
@@ -56,8 +56,12 @@ module.exports = (robot) ->
 
   updateVacationList = () ->
     determineWhosOnVacation (users) ->
-      onVacationUsers = users
-      onVacationRegex = eval "/\\b(#{(users.map (user) -> user.name).join '|'})\\b/gi"
+      if users and users.length > 0
+        onVacationUsers = users
+        onVacationRegex = eval "/\\b(#{(users.map (user) -> user.name).join '|'})\\b/gi"
+      else
+        onVacationUsers = []
+        onVacationRegex = null
 
   userOnVacationMentioned = (message) ->
     return false if not onVacationRegex
