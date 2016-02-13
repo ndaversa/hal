@@ -54,6 +54,12 @@ module.exports = (robot) ->
     result = if results? and results.length >=1 then results[0] else null
     return result
 
+  nextWeekday = (date) ->
+    switch date.weekday()
+      when 0 then return date.weekday 1 # sunday > monday
+      when 6 then return date.weekday 8 # saturday > monday
+      else return date
+
   determineWhosOnVacation = (callback) ->
     now = moment()
     ical.fromURL calendarUrl, {}, (err, data) ->
@@ -90,7 +96,8 @@ module.exports = (robot) ->
     for username in msg.match
       username = username.toLowerCase()
       user = _(onVacationUsers).find (user) -> user.name is username
-      msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation returning #{ user.event.end.fromNow() } on #{ user.event.end.format 'dddd MMMM Do' } :sunglasses:"
+      date = nextWeekday user.event.end
+      msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation returning #{ date.fromNow() } on #{ date.format 'dddd MMMM Do' } :sunglasses:"
 
   robot.brain.once 'loaded', ->
     refreshVacationList()
