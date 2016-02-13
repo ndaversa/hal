@@ -31,15 +31,17 @@ onVacationRegex = null
 
 module.exports = (robot) ->
 
-  lookupUser = (name) ->
+  lookupUser = (event) ->
+    name = event.name.toLowerCase()
     users = robot.brain.users()
     users = _(users).keys().map (id) ->
       u = users[id]
       if not u.slack.deleted and not u.slack.is_bot and u.email_address?.includes '@wattpad'
         id: u.id
-        name: u.name
-        real_name: u.real_name
-        email: u.email_address?.split('@')[0] or ''
+        name: u.name.toLowerCase()
+        real_name: u.real_name.toLowerCase()
+        email: u.email_address?.split('@')[0].toLowerCase() or ''
+        event: event
       else
         null
     users = _(users).compact()
@@ -61,9 +63,12 @@ module.exports = (robot) ->
         end: moment event.end
         summary: event.summary
         id: id
-      .filter((event) -> now.isBetween event.start, event.end)
-      .map((event) -> event.summary.split('-')[0].trim())
-      .map(lookupUser)
+      .filter (event) ->
+        now.isBetween event.start, event.end
+      .map (event) ->
+        event.name = event.summary.split('-')[0].trim()
+        event
+      .map lookupUser
       callback _(onVacation).compact()
 
   refreshVacationList = (callback) ->
@@ -83,8 +88,9 @@ module.exports = (robot) ->
 
   robot.listen userOnVacationMentioned, (msg) ->
     for username in msg.match
+      username = username.toLowerCase()
       user = _(onVacationUsers).find (user) -> user.name is username
-      msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation :sunglasses:"
+      msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation returning #{ user.event.end.fromNow() } on #{ user.event.end.format 'dddd MMMM Do' } :sunglasses:"
 
   robot.brain.once 'loaded', ->
     refreshVacationList()
@@ -94,7 +100,7 @@ module.exports = (robot) ->
     refreshVacationList (users) ->
       vacationers = users.map (user) -> obfuscator.obfuscate user.name
       if vacationers.length > 0
-        msg.send "<@#{msg.message.user.id}>: #{ vacationers.join ' , ' } #{if vacationers.length > 1 then "are all" else "is the only one"} on vacation :sunglasses:"
+        msg.send "<@#{msg.message.user.id}>: #{ vacationers.join ' , ' } #{if vacationers.length > 1 then "are" else "is the only one"} on vacation :sunglasses:"
       else
         msg.send "<@#{msg.message.user.id}>: No one is on vacation :sadpanda:"
 
