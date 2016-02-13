@@ -420,4 +420,10 @@ var leetObfuscator = {
     }
 };
 
-module.exports = perfectObfuscator
+module.exports = {
+  PerfectObfuscator: perfectObfuscator,
+  StrongObfuscator: strongObfuscator,
+  NiceObfuscator: niceObfuscator,
+  LeetObfuscator: leetObfuscator,
+  WeakObfuscator: weakObfuscator
+};
