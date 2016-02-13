@@ -19,7 +19,8 @@
 #   ndaversa
 
 _ = require 'underscore'
-obfuscator = require('./obfuscator').PerfectObfuscator
+Obfuscator = require './obfuscator'
+obfuscator = new Obfuscator Obfuscator.PerfectObfuscator
 ical = require 'ical'
 moment = require 'moment'
 Fuse = require 'fuse.js'
