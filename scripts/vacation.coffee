@@ -53,6 +53,7 @@ module.exports = (robot) ->
       verbose: no
     results = f.search name
     result = if results? and results.length >=1 then results[0] else null
+    robot.logger.info "Matching `#{name}` with @#{result.name}"
     return result
 
   nextWeekday = (date) ->
@@ -74,11 +75,13 @@ module.exports = (robot) ->
         now.isBetween event.start, event.end
       .map (event) ->
         event.name = event.summary.split('-')[0].trim()
+        robot.logger.info "#{event.name}"
         event
       .map lookupUser
       callback _(onVacation).compact()
 
   refreshVacationList = (callback) ->
+    robot.logger.info 'Refreshing vacation list'
     determineWhosOnVacation (users) ->
       if users and users.length > 0
         onVacationUsers = users
@@ -101,7 +104,9 @@ module.exports = (robot) ->
       msg.send "<@#{msg.message.user.id}>: #{obfuscator.obfuscate user.name} is on vacation returning #{ date.fromNow() } on #{ date.format 'dddd MMMM Do' } :sunglasses:"
 
   robot.brain.once 'loaded', ->
-    refreshVacationList()
+    refreshVacationList (users) ->
+      robot.logger.info "Users on vacation: #{users.map((u) -> "@#{u.name}").join ", "}"
+
     new cronJob( "0 0 * * * *", refreshVacationList, null, true)
 
   robot.respond /(who\s?is )?on vacation/, (msg) ->
