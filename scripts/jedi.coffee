@@ -53,10 +53,9 @@ module.exports = (robot) ->
       if jediRegex.test topic
         [ __, lightsaber, username ] = topic.match jediRegex
         if lightsaber and username
-          console.log lookupUser username
           channel = robot.adapter.client.getChannelGroupOrDMByName "jedi"
-          currentTopic = channel.topic.value
-          jediChannelComponents = currentTopic.match jediChannelRegex
+          jediTopic = channel.topic.value
+          jediChannelComponents = jediTopic.match jediChannelRegex
 
           newJediChannelComponents = []
           found=no
@@ -70,7 +69,7 @@ module.exports = (robot) ->
 
           newJediChannelComponents.push newJedi if not found
           newTopic = newJediChannelComponents.join "  |  "
-          channel.setTopic newTopic if newTopic isnt currentTopic
+          channel.setTopic newTopic if newTopic isnt jediTopic
 
           jedi = newJediChannelComponents.map (jedi) ->
             components = jedi.match jediPlatformRegex
@@ -80,7 +79,7 @@ module.exports = (robot) ->
               return undefined
           jedi = _(jedi).compact()
 
-          fetch "https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{jedi.join ','}"
+          fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{jedi.join ','}")
           .then (res) ->
             checkStatus res
           .then (res) ->
