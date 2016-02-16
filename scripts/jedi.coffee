@@ -57,7 +57,7 @@ module.exports = (robot) ->
           jediTopic = channel.topic.value
           jediChannelComponents = jediTopic.match jediChannelRegex
 
-          newJediChannelComponents = []
+          newJediChannelComponents = ["@jedis for all jedi"]
           found=no
           newJedi = ":#{room}: :#{lightsaber}: @#{username}"
 
