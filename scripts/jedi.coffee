@@ -74,7 +74,7 @@ module.exports = (robot) ->
     newJediTopic = jediTopicComponents.join "  |  "
     channel.setTopic newJediTopic if newJediTopic isnt channel.topic.value
 
-    robot.logger.info "Updating Jedu user group #{ jediUsergroup } with [ #{ (jedis.map (j) -> j.name).join ', ' }]"
+    robot.logger.info "Updating Jedi user group #{ jediUsergroup } with [ #{ (jedis.map (j) -> j.name).join ', ' }]"
     fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}")
     .then (res) ->
       checkStatus res
