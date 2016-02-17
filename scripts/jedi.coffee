@@ -26,6 +26,7 @@ jediChannel = process.env.HUBOT_JEDI_CHANNEL
 jediUsergroup = process.env.HUBOT_JEDI_USER_GROUP
 rooms = JSON.parse process.env.HUBOT_JEDI_PLATFORM_CHANNELS
 lightsabers = process.env.HUBOT_JEDI_LIGHTSABERS
+jediRegex = eval "/:(#{lightsabers}): (?:jedi:? ?)?@([\\w._]*)/i"
 
 parseJSON = (response) ->
   return response.json()
@@ -47,28 +48,23 @@ lookupUser = (username) ->
     return null
 
 module.exports = (robot) ->
-  baseRegex = ":(#{lightsabers}): (?:jedi:? ?)?@([\\w._]*)"
-  jediRegex = eval "/#{baseRegex}/i"
-  jediChannelRegex = eval "/:(#{rooms.join '|'}): #{baseRegex}/gi"
-  jediPlatformRegex = eval "/:(#{rooms.join '|'}): #{baseRegex}/i"
 
   robot.topic (res) ->
     return if not _(rooms).contains res.message.room
-
     jediTopicComponents = ["@jedis for everyone"]
     jedis = []
 
     for room in rooms
       channel = robot.adapter.client.getChannelGroupOrDMByName room
-      return if not channel
+      continue if not channel
       topic = channel.topic.value
+      continue if not jediRegex.test topic
+      [ __, lightsaber, username ] = topic.match jediRegex
+      continue if not lightsaber or not username
 
-      if jediRegex.test topic
-        [ __, lightsaber, username ] = topic.match jediRegex
-        if lightsaber and username
-          jedi = ":#{room}: :#{lightsaber}: @#{username}"
-          jediTopicComponents.push jedi
-          jedis.push lookupUser username
+      jedi = ":#{room}: :#{lightsaber}: @#{username}"
+      jediTopicComponents.push jedi
+      jedis.push lookupUser username
 
     channel = robot.adapter.client.getChannelGroupOrDMByName jediChannel
     newJediTopic = jediTopicComponents.join "  |  "
