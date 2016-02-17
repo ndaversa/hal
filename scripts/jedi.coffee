@@ -8,6 +8,10 @@
 #
 # Configuration:
 #   HUBOT_SLACK_API_TOKEN
+#   HUBOT_JEDI_CHANNEL
+#   HUBOT_JEDI_PLATFORM_CHANNELS
+#   HUBOT_JEDI_LIGHTSABERS
+#   HUBOT_JEDI_USER_GROUP
 #
 # Commands:
 #   None
@@ -18,6 +22,10 @@
 _ = require "underscore"
 fetch = require "node-fetch"
 token = process.env.HUBOT_SLACK_API_TOKEN
+jediChannel = process.env.HUBOT_JEDI_CHANNEL
+jediUsergroup = process.env.HUBOT_JEDI_USER_GROUP
+rooms = JSON.parse process.env.HUBOT_JEDI_PLATFORM_CHANNELS
+lightsabers = process.env.HUBOT_JEDI_LIGHTSABERS
 
 parseJSON = (response) ->
   return response.json()
@@ -34,56 +42,44 @@ lookupUser = (username) ->
   users = robot.brain.users()
   result = (users[user] for user of users when users[user].name is username)
   if result?.length is 1
-    return result[0].id
+    return result[0]
   else
     return null
 
 module.exports = (robot) ->
-  jediUsergroup = "S0LV4HX8W"
-  rooms = ["ios", "android", "web", "platform"]
-  baseRegex = ":(lightsaber|lightsaber-blue|kyloren|sith|sithlord): (?:jedi:? ?)?@([\\w._]*)"
+  baseRegex = ":(#{lightsabers}): (?:jedi:? ?)?@([\\w._]*)"
   jediRegex = eval "/#{baseRegex}/i"
   jediChannelRegex = eval "/:(#{rooms.join '|'}): #{baseRegex}/gi"
   jediPlatformRegex = eval "/:(#{rooms.join '|'}): #{baseRegex}/i"
 
   robot.topic (res) ->
-    room = res.message.room
-    if _(rooms).contains room
-      topic = res.message.text
+    return if not _(rooms).contains res.message.room
+
+    jediTopicComponents = ["@jedis for everyone"]
+    jedis = []
+
+    for room in rooms
+      channel = robot.adapter.client.getChannelGroupOrDMByName room
+      return if not channel
+      topic = channel.topic.value
+
       if jediRegex.test topic
         [ __, lightsaber, username ] = topic.match jediRegex
         if lightsaber and username
-          channel = robot.adapter.client.getChannelGroupOrDMByName "jedi"
-          jediTopic = channel.topic.value
-          jediChannelComponents = jediTopic.match jediChannelRegex
+          jedi = ":#{room}: :#{lightsaber}: @#{username}"
+          jediTopicComponents.push jedi
+          jedis.push lookupUser username
 
-          newJediChannelComponents = ["@jedis for all jedi"]
-          found=no
-          newJedi = ":#{room}: :#{lightsaber}: @#{username}"
+    channel = robot.adapter.client.getChannelGroupOrDMByName jediChannel
+    newJediTopic = jediTopicComponents.join "  |  "
+    channel.setTopic newJediTopic if newJediTopic isnt channel.topic.value
 
-          for match in jediChannelComponents
-            if match.includes ":#{room}:"
-              found=yes
-              match = newJedi
-            newJediChannelComponents.push match
-
-          newJediChannelComponents.push newJedi if not found
-          newTopic = newJediChannelComponents.join "  |  "
-          channel.setTopic newTopic if newTopic isnt jediTopic
-
-          jedi = newJediChannelComponents.map (jedi) ->
-            components = jedi.match jediPlatformRegex
-            if components.length >= 4
-              return lookupUser components[3]
-            else
-              return undefined
-          jedi = _(jedi).compact()
-
-          fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{jedi.join ','}")
-          .then (res) ->
-            checkStatus res
-          .then (res) ->
-            parseJSON res
-          .catch (error) ->
-            console.log "An error occured trying to update the Jedi user group #{error}"
+    robot.logger.info "Updating Jedu user group #{ jediUsergroup } with [ #{ (jedis.map (j) -> j.name).join ', ' }]"
+    fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}")
+    .then (res) ->
+      checkStatus res
+    .then (res) ->
+      parseJSON res
+    .catch (error) ->
+      robot.logger.error "An error occured trying to update the Jedi user group #{error}"
 
