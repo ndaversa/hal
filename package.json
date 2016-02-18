@@ -11,7 +11,7 @@
     "hubot": "^2.17.0",
     "hubot-aws-bot": "^1.2.2",
     "hubot-diagnostics": "0.0.1",
-    "hubot-github-bot": "^1.4.0",
+    "hubot-github-bot": "^1.4.1",
     "hubot-google-images": "hubot-scripts/hubot-google-images",
     "hubot-google-translate": "^0.1.0",
     "hubot-groups-bot": "wattpad/hubot-groups-bot",
