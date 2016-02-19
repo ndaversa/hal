@@ -20,7 +20,7 @@
 #   ndaversa
 
 _ = require "underscore"
-fetch = require "node-fetch"
+nodeFetch = require "node-fetch"
 token = process.env.HUBOT_SLACK_API_TOKEN
 jediChannel = process.env.HUBOT_JEDI_CHANNEL
 jediUsergroup = process.env.HUBOT_JEDI_USER_GROUP
@@ -28,16 +28,23 @@ rooms = JSON.parse process.env.HUBOT_JEDI_PLATFORM_CHANNELS
 lightsabers = process.env.HUBOT_JEDI_LIGHTSABERS
 jediRegex = eval "/:(#{lightsabers}): (?:jedi:? ?)?@([\\w._]*)/i"
 
-parseJSON = (response) ->
-  return response.json()
 
-checkStatus = (response) ->
-  if response.status >= 200 and response.status < 300
-    return response
-  else
-    error = new Error(response.statusText)
-    error.response = response
-    throw error
+fetch = (url, opts) ->
+  robot.logger.info "Fetching: #{url}"
+  options = {}
+  options = _(options).extend opts
+
+  nodeFetch(url,options).then (response) ->
+    if response.status >= 200 and response.status < 300
+      return response
+    else
+      error = new Error(response.statusText)
+      error.response = response
+      throw error
+  .then (response) ->
+    response.json()
+  .catch (error) ->
+    robot.logger.error error.stack
 
 lookupUser = (username) ->
   users = robot.brain.users()
@@ -68,14 +75,10 @@ module.exports = (robot) ->
 
     channel = robot.adapter.client.getChannelGroupOrDMByName jediChannel
     newJediTopic = jediTopicComponents.join "  |  "
-    channel.setTopic newJediTopic if newJediTopic isnt channel.topic.value
+    channel.setTopic newJediTopic if channel? and newJediTopic isnt channel.topic.value
 
     robot.logger.info "Updating Jedi user group #{ jediUsergroup } with [ #{ (jedis.map (j) -> j.name).join ', ' }]"
-    fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}")
-    .then (res) ->
-      checkStatus res
-    .then (res) ->
-      parseJSON res
+    fetch "https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}"
     .catch (error) ->
       robot.logger.error "An error occured trying to update the Jedi user group #{error}"
 
