@@ -75,7 +75,6 @@ module.exports = (robot) ->
         now.isBetween event.start, event.end
       .map (event) ->
         event.name = event.summary.split('-')[0].trim()
-        robot.logger.info "#{event.name}"
         event
       .map lookupUser
       callback _(onVacation).compact()
