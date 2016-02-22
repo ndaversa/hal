@@ -90,11 +90,11 @@ module.exports = (robot) ->
         onVacationRegex = null
       callback? onVacationUsers
 
-  userOnVacationMentioned = (message) ->
+  userOnVacationMentioned = (msg) ->
     return false if not onVacationRegex
-    return false if not message.match?
+    return false if not msg.match?
     return false if not msg.message.user?.id
-    return message.match onVacationRegex
+    return msg.match onVacationRegex
 
   robot.listen userOnVacationMentioned, (msg) ->
     for username in msg.match
