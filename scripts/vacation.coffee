@@ -93,7 +93,7 @@ module.exports = (robot) ->
   userOnVacationMentioned = (msg) ->
     return false if not onVacationRegex
     return false if not msg.match?
-    return false if not msg.message.user?.id
+    return false if not msg.user.id
     return msg.match onVacationRegex
 
   robot.listen userOnVacationMentioned, (msg) ->
