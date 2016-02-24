@@ -78,7 +78,7 @@ module.exports = (robot) ->
     channel.setTopic newJediTopic if channel? and newJediTopic isnt channel.topic.value
 
     robot.logger.info "Updating Jedi user group #{ jediUsergroup } with [ #{ (jedis.map (j) -> j.name).join ', ' }]"
-    fetch "https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}"
+    fetch("https://slack.com/api/usergroups.users.update?token=#{token}&usergroup=#{jediUsergroup}&users=#{ (jedis.map (j) -> j.id).join ','}")
     .catch (error) ->
       robot.logger.error "An error occured trying to update the Jedi user group #{error}"
 
