@@ -3,6 +3,7 @@
   "hubot-privileges",
   "hubot-aws-bot",
   "hubot-groups-bot",
+  "hubot-loki-bot",
   "hubot-ical-topic-bot",
   "hubot-victorops-bot",
   "hubot-jira-bot",
