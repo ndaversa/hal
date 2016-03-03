@@ -26,7 +26,7 @@ Fuse = require 'fuse.js'
 
 spreadsheet = new GoogleSpreadsheet process.env.HUBOT_SCHEDULE_SPREADSHEET_ID
 creds = require "./google-generated-creds.json"
-expansions = J: "Jedi", C: "Changeling", A: "Architect", V: "Vacation"
+expansions = J: "Jedi", C: "Changeling", A: "Architect", V: "Vacation", IP: "Internal"
 WEEKS = 52
 
 module.exports = (robot) ->
@@ -131,7 +131,7 @@ module.exports = (robot) ->
           employee[w] = expansions[employee[w]]
         else if /\d/.test employee[w]
           employee[w] = findProjectFor team, employee[w], w
-        else
+        else if not employee[w]
           employee[w] = "-"
       employees.push employee
 
