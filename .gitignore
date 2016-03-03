@@ -4,3 +4,4 @@ node_modules
 launch.sh
 restart.sh
 dump.rdb
+scripts/google-generated-creds.json
