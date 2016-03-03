@@ -116,13 +116,15 @@ module.exports = (robot) ->
 
   findProjectFor = (team, lane, column) ->
     row = findRowForLane team, lane
-    project = _schedule[ (row-1)*WEEKS + column ]?.value or lane
+    project = _schedule[ (row-1)*WEEKS + column ]?.value or "TBD"
     return project
 
   generateScheduleFor = (team, rows, column, numWeeks=5) ->
     employees = []
     columns = [ "name" ]
     for e in [rows.start..rows.end]
+      active = _engineering[ (e-1)*WEEKS + 1 ].value
+      continue unless active
       employee = name: lookupUser _engineering[ (e-1)*WEEKS ].value
       for w in [column-1..column+3]
         columns.push "#{w}"
