@@ -149,7 +149,7 @@ module.exports = (robot) ->
     ```#{table}```
     """
 
-  robot.respond /schedule for (web|ios|android|platform)/, (context) ->
+  robot.hear /^(?:Reminder:|hal|pal) schedule for (web|ios|android|platform)\.?$/, (context) ->
     [ __, team ] = context.match
     getSchedule().then (data) ->
       column =  findColumnForThisWeek()
