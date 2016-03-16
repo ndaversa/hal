@@ -42,6 +42,6 @@
     "underscore.string": "^3.2.3"
   },
   "engines": {
-    "node": "4.1.x"
+    "node": "5.5.x"
   }
 }
