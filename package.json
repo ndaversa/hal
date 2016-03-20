@@ -19,7 +19,7 @@
     "hubot-groups-bot": "github:wattpad/hubot-groups-bot",
     "hubot-help": "^0.1.3",
     "hubot-ical-topic-bot": "^1.1.6",
-    "hubot-jira-bot": "^5.0.0",
+    "hubot-jira-bot": "^5.1.0",
     "hubot-loki-bot": "github:wattpad/hubot-loki-bot",
     "hubot-loudbot": "^1.4.1",
     "hubot-maps": "0.0.2",
