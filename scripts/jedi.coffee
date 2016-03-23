@@ -26,7 +26,7 @@ jediChannel = process.env.HUBOT_JEDI_CHANNEL
 jediUsergroup = process.env.HUBOT_JEDI_USER_GROUP
 rooms = JSON.parse process.env.HUBOT_JEDI_PLATFORM_CHANNELS
 lightsabers = process.env.HUBOT_JEDI_LIGHTSABERS
-jediRegex = eval "/:(#{lightsabers}): (?:jedi:? ?)?@([\\w._]*)/i"
+jediRegex = eval "/:(#{lightsabers}):\\s+(?:jedi:?\\s*)?@([\\w._]*)/i"
 
 
 fetch = (url, opts) ->
