@@ -1,7 +1,13 @@
 #!/bin/bash
 
-while read -r line; do
-  eval `printf "export %s='%s';" "$(echo $line | cut -d'=' -f1)" "$(echo $line | cut -d'=' -f2-)"`
+regex="^(.+)=(.+)$"
+while IFS='' read -r line; do
+  if [[ $line =~ $regex ]]
+  then
+    export "${BASH_REMATCH[1]}=${BASH_REMATCH[2]}"
+  else
+    echo "Unable to process $line"
+  fi
 done < pal.env
 unset REDIS_URL
 
