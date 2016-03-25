@@ -1,0 +1,17 @@
+version: '2'
+services:
+  hubot:
+    build: .
+    env_file:
+      - ./hal.env
+    depends_on:
+      - redis
+    links:
+      - redis
+    volumes:
+      - ./google-generated-creds.json:/usr/src/app/google-generated-creds.json
+  redis:
+    image: redis
+    expose:
+      - "6379"
+    command: redis-server --appendonly yes

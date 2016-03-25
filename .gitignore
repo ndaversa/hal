@@ -1,7 +1,7 @@
 node_modules
 .DS_Store*
 .hubot_history
-launch.sh
-restart.sh
 dump.rdb
-scripts/google-generated-creds.json
+pal.env
+hal.env
+google-generated-creds.json

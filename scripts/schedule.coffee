@@ -25,7 +25,7 @@ GoogleSpreadsheet = require "google-spreadsheet"
 Fuse = require 'fuse.js'
 
 spreadsheet = new GoogleSpreadsheet process.env.HUBOT_SCHEDULE_SPREADSHEET_ID
-creds = require "./google-generated-creds.json"
+creds = require "../google-generated-creds.json"
 expansions = J: "Jedi", C: "Changeling", A: "Architect", V: "Vacation", IP: "Internal", "O": "Onboarding"
 WEEKS = 52
 
