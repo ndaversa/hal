@@ -10,8 +10,15 @@ services:
       - redis
     volumes:
       - ./google-generated-creds.json:/usr/src/app/google-generated-creds.json
+    restart: always
   redis:
     image: redis
+    volumes:
+      - data:/data
     expose:
       - "6379"
     command: redis-server --appendonly yes
+    restart: always
+volumes:
+  data:
+    driver: local
