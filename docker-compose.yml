@@ -17,7 +17,6 @@ services:
       - data:/data
     expose:
       - "6379"
-    command: redis-server --appendonly yes
     restart: always
 volumes:
   data:
