@@ -1,7 +1,7 @@
 FROM node:5.9.1-slim
 
 RUN mkdir -p /root/.ssh/
-RUN $SSH_KEY > /root/.ssh/id_rsa
+RUN echo $SSH_KEY > /root/.ssh/id_rsa
 RUN head -c 5 < /root/.ssh/id_rsa
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
