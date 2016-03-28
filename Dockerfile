@@ -6,10 +6,11 @@ WORKDIR /usr/src/app
 COPY external-scripts.json /usr/src/app
 COPY hubot-scripts.json /usr/src/app
 COPY package.json /usr/src/app
-
 COPY bin /usr/src/app/bin
-COPY node_modules /usr/src/app/node_modules
 COPY scripts /usr/src/app/scripts
+
+RUN npm install
+COPY node_modules /usr/src/app/node_modules
 
 EXPOSE 80
 

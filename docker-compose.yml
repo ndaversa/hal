@@ -3,13 +3,13 @@ services:
   hubot:
     build: .
     env_file:
-      - ./hal.env
+      - /data/hal.env
     depends_on:
       - redis
     links:
       - redis
     volumes:
-      - ./google-generated-creds.json:/usr/src/app/google-generated-creds.json
+      - /data/google-generated-creds.json:/usr/src/app/google-generated-creds.json
     restart: always
   redis:
     image: redis
