@@ -1,14 +1,9 @@
 FROM node:5.9.1-slim
 
-RUN mkdir -p /root/.ssh/
-RUN echo "test" > /root/.ssh/test
-RUN env 
-RUN cat /root/.ssh/test
-RUN echo $SSH_KEY > /root/.ssh/id_rsa; chmod 600 /root/.ssh/id_rsa; head -c 5 < /root/.ssh/id_rsa
-RUN head -c 5 < /root/.ssh/id_rsa
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /root/.ssh
+ADD /data/id_rsa /root/.ssh/id_rsa
 
+WORKDIR /usr/src/app
 COPY external-scripts.json /usr/src/app
 COPY hubot-scripts.json /usr/src/app
 COPY package.json /usr/src/app
