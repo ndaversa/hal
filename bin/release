@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -rfv node_modules
+yarn --force
+git add .
+git commit -a -v

@@ -1,0 +1,162 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hal
+spec:
+  type: NodePort
+  ports:
+    - port: 31790
+      nodePort: 31790
+      targetPort: http
+      protocol: TCP
+  selector:
+    app: hal
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hal
+spec:
+  template:
+    metadata:
+      labels:
+        app: hal
+        env: prod
+    spec:
+      containers:
+      - name: hal
+        # This is interpolated by the deploy script
+        image: {{.Image}}
+        ports:
+          - name: http
+            containerPort: 80
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - "cp"
+                - "/data/google-generated-creds.json"
+                - "/usr/src/app"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+         httpGet:
+           path: /healthz
+           port: 80
+         initialDelaySeconds: 30
+         timeoutSeconds: 3
+         periodSeconds: 180
+         successThreshold: 1
+         failureThreshold: 1
+        env:
+          - name: TZ
+            value: "US/Eastern"
+          - name: EXPRESS_PORT
+            value: "80"
+          - name: EXPRESS_STATIC
+            value: "/data/static"
+          - name: EXPRESS_URL
+            value: "http://hal.ndaversa.com"
+          - name: EXPRESS_USERNAME
+            value: "ndaversa"
+          - name: HUBOT_360_ADMIN_USERGROUP
+            value: "S225FLKT7"
+          - name: HUBOT_AGORA_URL
+            value: "http://agora-internal"
+          - name: HUBOT_AWS_REGION
+            value: "us-east-1"
+          - name: HUBOT_AWS_REQUIRED_TAGS
+            value: "role,tier"
+          - name: HUBOT_DARK_SKY_DEFAULT_LOCATION
+            value: "toronto"
+          - name: HUBOT_DARK_SKY_UNITS
+            value: "ca"
+          - name: HUBOT_GITHUB_ORG
+            value: "ndaversa"
+          - name: HUBOT_GITHUB_REPOS_MAP
+            value: |
+              {"club-web":["frontend"],"www":["frontend"],"core-android-app":["android"],"ciao":["ios"],"alerts":["frontend"],"club-platform":["highlander","service-comment","go-common","media-service","worker-spam","push_notification_consumers","worker-read-counts","worker-upload","daily-engagement-email-worker","sqsconsumer","web"]}
+          - name: HUBOT_GROUPS_AUTHORIZED_USERGROUP
+            value: "S0N6ME2RJ"
+          - name: HUBOT_ICAL_CHANNEL_MAP
+            value: |
+              {"firehall":"https://example.com"
+          - name: HUBOT_ICAL_LABEL_CHANNEL_MAP
+            value: |
+              {"firehall":":pager:"}
+          # - name: HUBOT_JIRA_DUPLICATE_DETECTION
+          #   value: "true"
+          - name: HUBOT_JIRA_PRIORITIES_MAP
+            value: |
+              [{"name":"Blocker","id":"1"},{"name":"Critical","id":"2"},{"name":"Major","id":"3"},{"name":"Minor","id":"4"},{"name":"Trivial","id":"5"}]
+          - name: HUBOT_JIRA_PROJECTS_MAP
+            value: |
+              {"reliability":"REL","support-team":"SUP","ada":"AXES","engagement-":"EN","offboarding":"RIP","chapter-creator-rel":"CR","squad-ads":"MON","shredder":"SRED","chapter-trust-safety":"TS","ambassadors":"AMB","android":"AN","core-android-app":"AN","squad-story-dna":"DNA","guild-data":"DAG","platform":"PLAT","adops":"IN","ws":"WS","office-services":"OAAS","guild-web":"WEB","bots":"META","community":"COM","tap":"TAP","firehall":"FIRE","data":"DAG","squad-velocity":"VELO","growth":"GM","hackfriday":"HACK","squad-cd":"CD","ciao":"IOS","guild-ios":"IOS","guild-backend":"BEND","requestaccess":"AXES","guild-android":"AN","squad-money":"MON","backend":"BEND","ios":"IOS","squad-audience-trust":"AUDI","web":"WEB","squad-connect":"CN","squad-writer-success":"WRITER"}
+          - name: HUBOT_JIRA_TRANSITIONS_MAP
+            value: |
+              [{"name":"triage","jira":"Triage"},{"name":"icebox","jira":"Icebox"},{"name":"backlog","jira":"Backlog"},{"name":"devready","jira":"Selected for Development"},{"name":"inprogress","jira":"In Progress"},{"name":"design","jira":"Design Triage"},{"name":"running","jira":"Running"},{"name":"review","jira":"In Review"},{"name":"done","jira":"Done"},{"name":"resolved","jira":"Resolved"},{"name":"postmortem","jira":"Post Mortem"}]
+          - name: HUBOT_JIRA_TYPES_MAP
+            value: |
+                {"story":"Story / Feature","bug":"Bug","task":"Task","exploratory":"Exploratory","insights":"Community Insights","hack":"Task","request":"Insight General Request","epic":"Epic", "experiment":"Experiment"}
+          - name: HUBOT_JIRA_URL
+            value: "https://atlassian.net"
+          - name: HUBOT_JIRA_USER
+            value: "hal"
+          - name: HUBOT_JIRA_USERNAME
+            value: "hal"
+          - name: HUBOT_LOG_LEVEL
+            value: "info"
+          - name: HUBOT_SLACK_BOTNAME
+            value: "hal"
+          - name: HUBOT_SLACK_BUTTONS
+            value: |
+              {"watch":{"name":"watch","text":"Watch","type":"button","value":"watch","style":"primary"},"assign":{"name":"assign","text":"Assign to me","type":"button","value":"assign"},"devready":{"name":"devready","text":"Dev Ready","type":"button","value":"selected"},"inprogress":{"name":"inprogress","text":"In Progress","type":"button","value":"progress"},"rank":{"name":"rank","text":"Rank Top","type":"button","value":"top"},"running":{"name":"running","text":"Running","type":"button","value":"running"},"review":{"name":"review","text":"Review","type":"button","value":"review"},"resolved":{"name":"resolved","text":"Resolved","type":"button","style":"primary","value":"resolved"},"done":{"name":"done","text":"Done","type":"button","style":"primary","value":"done"}}
+          - name: HUBOT_SLACK_CHANNELMODE
+            value: "whitelist"
+          - name: HUBOT_SLACK_CHANNELS
+            value: "general"
+          - name: HUBOT_SLACK_EXIT_ON_DISCONNECT
+            value: "true"
+          - name: HUBOT_SLACK_LINK_NAMES
+            value: "1"
+          - name: HUBOT_SLACK_PROJECT_BUTTON_STATE_MAP
+            value: |
+              {"DATA":{"inprogress":["review","running","resolved"],"review":["running","resolved"],"running":["resolved"],"resolved":["devready","inprogress"],"mention":["watch","assign","devready","inprogress","rank"]},"PLAT":{"inprogress":["review","running","resolved"],"review":["running","resolved"],"running":["resolved"],"resolved":["devready","inprogress"],"mention":["watch","assign","devready","inprogress","rank"]},"REL":{"inprogress":["review","running","resolved"],"review":["running","resolved"],"running":["resolved"],"resolved":["devready","inprogress"],"mention":["watch","assign","devready","inprogress","rank"]},"default":{"inprogress":["review","done"],"review":["done"],"done":["devready, inprogress"],"mention":["watch","assign","devready","inprogress","rank"]}}
+          - name: HUBOT_SLACK_TEAM
+            value: "daversa"
+          - name: HUBOT_STANDUP_PREPEND
+            value: "<!channel>"
+          - name: HUBOT_STATUSBOT_CHANNEL
+            value: "status"
+          - name: HUBOT_STATUSBOT_USERGROUP
+            value: "S19A3FVEE"
+          - name: HUBOT_VICTOROPS_TEAMS_MAP
+            value: |
+              {"firehall":"devops"}
+          - name: HUBOT_ZENDESK_CHANNEL
+            value: "chapter-support"
+          - name: HUBOT_ZENDESK_URL
+            value: "https://SUBDOMAIN.zendesk.com/api/v2"
+          - name: STATS_PREFIX
+            value: "STATS.hal"
+          - name: REDIS_URL
+            value: redis://example.com:6379
+
+        volumeMounts:
+          - mountPath: "/data"
+            name: hal
+      volumes:
+        - name: hal
+          secret:
+            secretName: hal
+            items:
+              - key: hal_env
+                path: hal.env
+              - key: google_generated_creds
+                path: google-generated-creds.json

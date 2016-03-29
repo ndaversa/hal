@@ -1,0 +1,7 @@
+#!/bin/bash
+yarn link hubot-jira-bot
+yarn link hubot-aws-bot
+yarn link hubot-victorops-bot
+yarn link hubot-github-bot
+yarn link hubot-reminder-bot
+

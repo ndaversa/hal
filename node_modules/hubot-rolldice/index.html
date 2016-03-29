@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dice Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+      *{
+        box-sizing:border-box;
+      }
+      body{
+        font-family: sans-serif;
+        background-color: #aaa;
+        padding:0;
+        margin:0;
+      }
+      h1{
+        margin-top:0;
+      }
+      .container{
+        max-width:800px;
+        min-height:100vh;
+        margin:0 auto;
+        background-color:white;
+        padding: 0 1em;
+      }
+      .dice-area{
+        max-height:100vh;
+        padding-top:1em;
+        padding-bottom:1em;
+        display:flex;
+        flex-direction:column;
+      }
+      .dice-form{
+        flex-shrink:0;
+      }
+      #dice_output{
+        overflow:auto;
+        flex-grow:2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="heading">
+        <h1>hubot-rolldice</h1>
+        <p>
+          This script is meant to be a standalone (no-dependencies) script for hubot, which allows your
+          robot to parse and process dice rolls. You can <a href="https://github.com/mentalspike/rolldice">view
+          the repository</a> and install the script from there, as it is not currently listed in NPM.
+        </p>
+        <p>
+          Though, you could always use this page if you don't have your hubot instance handy. Enter "help" as
+          your roll to see the supported syntax.
+        </p>
+      </div>
+      <div class="dice-area">
+        <div class="dice-form">
+          <form id="dice_form">
+            <input type="text" id="dice_command" value="2d6 + 2" placeholder="roll expression" />
+            <button type="submit">Roll</button>
+          </form>
+        </div>
+        <div id="dice_output"></div>
+      </div>
+    </div>
+    <script src="/dice.js"></script>
+    <script type="text/javascript">
+      var DiceExpression = require('./DiceExpression');
+      var diceInput = document.getElementById('dice_command');
+      var diceOutput = document.getElementById('dice_output');
+      document.getElementById('dice_form').addEventListener('submit', function(evt){
+        evt.preventDefault();
+        var cmd = diceInput.value;
+        if(cmd){
+          var dice = new DiceExpression(cmd);
+          
+          var pre = document.createElement('PRE');
+          pre.textContent = dice.toString();
+          
+          if(diceOutput.children.length){
+            diceOutput.insertBefore(pre, diceOutput.children[0]);
+          } else {
+            diceOutput.appendChild(pre);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

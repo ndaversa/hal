@@ -1,11 +1,8 @@
 [
   "hubot-help",
-  "hubot-privileges",
   "hubot-aws-bot",
   "hubot-groups-bot",
   "hubot-loki-bot",
-  "hubot-ical-topic-bot",
-  "hubot-victorops-bot",
   "hubot-jira-bot",
   "hubot-github-bot",
   "hubot-reminder-bot",
@@ -16,9 +13,9 @@
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-shipit",
-  "hubot-plusplus",
+  "hubot-plusplus-slack",
   "hubot-youtube-v3",
   "hubot-loudbot",
-  "hubot-random-story"
+  "hubot-random-story",
+  "hubot-rolldice"
 ]

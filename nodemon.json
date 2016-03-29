@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "ext": "coffee js json",
+  "exec": "bin/dev",
+  "ignoreRoot": [
+    ".git"
+  ]
+}
