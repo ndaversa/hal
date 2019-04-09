@@ -12,6 +12,11 @@ has, etc!
 [hubot]: http://hubot.github.com
 [generator-hubot]: https://github.com/github/generator-hubot
 
+### Deployment
+
+`kube-deploy` is aware of Hal so it will be automatically deployed when changes
+are merged to `master` branch
+
 ### Running hal Locally
 
 You can test your hubot by running the following, however some plugins will not

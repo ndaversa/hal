@@ -1,7 +1,5 @@
-node_modules
 .DS_Store*
 .hubot_history
 dump.rdb
-pal.env
-hal.env
 google-generated-creds.json
+.idea

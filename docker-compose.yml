@@ -9,12 +9,13 @@ services:
     links:
       - redis
     volumes:
+      - /data:/data
       - /data/google-generated-creds.json:/usr/src/app/google-generated-creds.json
     restart: always
   redis:
     image: redis
     volumes:
-      - data:/data
+      - /data:/data
     expose:
       - "6379"
     restart: always
