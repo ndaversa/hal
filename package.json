@@ -37,7 +37,7 @@
     "node-dogstatsd": "^0.0.6",
     "node-fetch": "^1.7.3",
     "stringstream": "~0.0.4",
-    "underscore": "^1.8.3",
+    "underscore": "^1.12.1",
     "underscore.string": "^3.3.5"
   },
   "engines": {
